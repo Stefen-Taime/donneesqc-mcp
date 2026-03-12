@@ -36,10 +36,10 @@ def main() -> None:
     logger.info("Démarrage du serveur MCP Données Québec sur %s:%s", MCP_HOST, MCP_PORT)
     logger.info("16 outils : 8 Données Québec + 3 Montréal + 4 Géospatial + 1 Stats")
 
-    mcp.run(
+    mcp.run(  # host/port passés via **kwargs à uvicorn
         transport="streamable-http",
-        host=MCP_HOST,
-        port=MCP_PORT,
+        host=MCP_HOST,  # ty: ignore[unknown-argument]
+        port=MCP_PORT,  # ty: ignore[unknown-argument]
     )
 
 

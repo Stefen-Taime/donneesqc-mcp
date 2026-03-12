@@ -52,7 +52,7 @@ class TestValidateSQL:
 
     def test_create_rejected(self):
         with pytest.raises(ValueError, match="instructions interdites"):
-            validate_sql('SELECT 1; CREATE TABLE evil (x INT)')
+            validate_sql("SELECT 1; CREATE TABLE evil (x INT)")
 
     def test_not_starting_with_select(self):
         with pytest.raises(ValueError, match="SELECT"):

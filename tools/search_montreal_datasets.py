@@ -29,9 +29,8 @@ async def search_montreal_datasets(query: str, page: int = 1, page_size: int = 2
 
         result = await ckan_api.package_search(MTL_API_URL, query=query, rows=page_size, start=start)
 
-        datasets = []
-        for pkg in result.get("results", []):
-            datasets.append({
+        datasets = [
+            {
                 "id": pkg.get("id"),
                 "name": pkg.get("name"),
                 "title": pkg.get("title"),
@@ -40,7 +39,9 @@ async def search_montreal_datasets(query: str, page: int = 1, page_size: int = 2
                 "num_resources": pkg.get("num_resources", 0),
                 "last_modified": pkg.get("metadata_modified"),
                 "url": f"https://donnees.montreal.ca/dataset/{pkg.get('name')}",
-            })
+            }
+            for pkg in result.get("results", [])
+        ]
 
         return json.dumps(
             {"count": result.get("count", 0), "page": page, "page_size": page_size, "datasets": datasets},

@@ -47,7 +47,10 @@ async def query_resource_data(
         try:
             filters_dict = json.loads(filters) if filters else None
         except json.JSONDecodeError:
-            return json.dumps({"error": f"Le paramètre 'filters' n'est pas du JSON valide: {filters}"}, ensure_ascii=False)
+            return json.dumps(
+                {"error": f"Le paramètre 'filters' n'est pas du JSON valide: {filters}"},
+                ensure_ascii=False,
+            )
 
         fields_list = [f.strip() for f in fields.split(",")] if fields else None
 

@@ -24,9 +24,8 @@ async def get_dataset_info(dataset_id: str) -> str:
     try:
         pkg = await ckan_api.package_show(DQ_API_URL, dataset_id)
 
-        resources = []
-        for res in pkg.get("resources", []):
-            resources.append({
+        resources = [
+            {
                 "id": res.get("id"),
                 "name": res.get("name"),
                 "format": res.get("format"),
@@ -34,7 +33,9 @@ async def get_dataset_info(dataset_id: str) -> str:
                 "url": res.get("url"),
                 "datastore_active": res.get("datastore_active", False),
                 "last_modified": res.get("last_modified"),
-            })
+            }
+            for res in pkg.get("resources", [])
+        ]
 
         info: dict[str, Any] = {
             "id": pkg.get("id"),
@@ -55,4 +56,7 @@ async def get_dataset_info(dataset_id: str) -> str:
         return json.dumps(info, ensure_ascii=False, indent=2)
     except Exception:
         logger.exception("Erreur dans get_dataset_info")
-        return json.dumps({"error": f"Impossible de récupérer le jeu de données '{dataset_id}'. Vérifiez l'identifiant."}, ensure_ascii=False)
+        return json.dumps(
+            {"error": f"Impossible de récupérer le jeu de données '{dataset_id}'. Vérifiez l'identifiant."},
+            ensure_ascii=False,
+        )

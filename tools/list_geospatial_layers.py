@@ -32,7 +32,8 @@ async def list_geospatial_layers(service: str = "wfs", query: str | None = None)
         if query:
             q_lower = query.lower()
             layers = [
-                layer for layer in layers
+                layer
+                for layer in layers
                 if q_lower in layer.get("name", "").lower()
                 or q_lower in layer.get("title", "").lower()
                 or q_lower in layer.get("abstract", "").lower()

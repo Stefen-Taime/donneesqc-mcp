@@ -38,15 +38,28 @@ async def _retry(
         try:
             resp = await fn(client, url, params)
             resp.raise_for_status()
-            return resp
         except httpx.HTTPStatusError as e:
-            logger.warning("HTTP %s pour %s (tentative %d/%d)", e.response.status_code, url, attempt + 1, HTTP_MAX_RETRIES)
+            logger.warning(
+                "HTTP %s pour %s (tentative %d/%d)",
+                e.response.status_code,
+                url,
+                attempt + 1,
+                HTTP_MAX_RETRIES,
+            )
             last_error = e
             if e.response.status_code < 500:
                 raise
         except httpx.RequestError as e:
-            logger.warning("Erreur réseau pour %s (tentative %d/%d): %s", url, attempt + 1, HTTP_MAX_RETRIES, e)
+            logger.warning(
+                "Erreur réseau pour %s (tentative %d/%d): %s",
+                url,
+                attempt + 1,
+                HTTP_MAX_RETRIES,
+                e,
+            )
             last_error = e
+        else:
+            return resp
 
         # Backoff exponentiel : 1s, 2s, 4s...
         if attempt < HTTP_MAX_RETRIES - 1:
@@ -65,7 +78,7 @@ async def fetch_json(url: str, params: dict[str, Any] | None = None) -> dict[str
         url=url,
         params=params,
     )
-    return resp.json()  # type: ignore[no-any-return]
+    return resp.json()
 
 
 async def fetch_text(url: str, params: dict[str, Any] | None = None) -> str:

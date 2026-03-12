@@ -47,13 +47,18 @@ async def get_geospatial_features(
         for feat in features[:max_features]:
             props = feat.get("properties", {})
             geom = feat.get("geometry", {})
-            summary["features"].append({
-                "properties": props,
-                "geometry_type": geom.get("type", "unknown"),
-                "coordinates_sample": geo_api.simplify_coords(geom),
-            })
+            summary["features"].append(
+                {
+                    "properties": props,
+                    "geometry_type": geom.get("type", "unknown"),
+                    "coordinates_sample": geo_api.simplify_coords(geom),
+                }
+            )
 
         return json.dumps(summary, ensure_ascii=False, indent=2)
     except Exception:
         logger.exception("Erreur dans get_geospatial_features")
-        return json.dumps({"error": f"Impossible de récupérer les entités de la couche '{layer_name}'."}, ensure_ascii=False)
+        return json.dumps(
+            {"error": f"Impossible de récupérer les entités de la couche '{layer_name}'."},
+            ensure_ascii=False,
+        )

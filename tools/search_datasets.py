@@ -38,15 +38,13 @@ async def search_datasets(
         if organization:
             fq_parts.append(f"organization:{organization}")
         if tags:
-            for tag in tags.split(","):
-                fq_parts.append(f'tags:"{tag.strip()}"')
+            fq_parts.extend(f'tags:"{tag.strip()}"' for tag in tags.split(","))
         fq = " AND ".join(fq_parts) if fq_parts else None
 
         result = await ckan_api.package_search(DQ_API_URL, query=query, rows=page_size, start=start, fq=fq)
 
-        datasets = []
-        for pkg in result.get("results", []):
-            datasets.append({
+        datasets = [
+            {
                 "id": pkg.get("id"),
                 "name": pkg.get("name"),
                 "title": pkg.get("title"),
@@ -56,7 +54,9 @@ async def search_datasets(
                 "num_resources": pkg.get("num_resources", 0),
                 "last_modified": pkg.get("metadata_modified"),
                 "url": f"https://www.donneesquebec.ca/recherche/dataset/{pkg.get('name')}",
-            })
+            }
+            for pkg in result.get("results", [])
+        ]
 
         return json.dumps(
             {"count": result.get("count", 0), "page": page, "page_size": page_size, "datasets": datasets},
@@ -65,4 +65,7 @@ async def search_datasets(
         )
     except Exception:
         logger.exception("Erreur dans search_datasets")
-        return json.dumps({"error": "Impossible de rechercher les jeux de données. Vérifiez les paramètres et réessayez."}, ensure_ascii=False)
+        return json.dumps(
+            {"error": "Impossible de rechercher les jeux de données. Vérifiez les paramètres et réessayez."},
+            ensure_ascii=False,
+        )

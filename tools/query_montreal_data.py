@@ -34,7 +34,10 @@ async def query_montreal_data(
         try:
             filters_dict = json.loads(filters) if filters else None
         except json.JSONDecodeError:
-            return json.dumps({"error": f"Le paramètre 'filters' n'est pas du JSON valide: {filters}"}, ensure_ascii=False)
+            return json.dumps(
+                {"error": f"Le paramètre 'filters' n'est pas du JSON valide: {filters}"},
+                ensure_ascii=False,
+            )
 
         result = await ckan_api.datastore_search(
             MTL_API_URL, resource_id=resource_id, q=question, filters=filters_dict, limit=page_size, offset=offset
@@ -53,4 +56,7 @@ async def query_montreal_data(
         )
     except Exception:
         logger.exception("Erreur dans query_montreal_data")
-        return json.dumps({"error": f"Impossible d'interroger la ressource montréalaise '{resource_id}'."}, ensure_ascii=False)
+        return json.dumps(
+            {"error": f"Impossible d'interroger la ressource montréalaise '{resource_id}'."},
+            ensure_ascii=False,
+        )

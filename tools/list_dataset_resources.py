@@ -21,9 +21,8 @@ async def list_dataset_resources(dataset_id: str) -> str:
     """
     try:
         pkg = await ckan_api.package_show(DQ_API_URL, dataset_id)
-        resources = []
-        for res in pkg.get("resources", []):
-            resources.append({
+        resources = [
+            {
                 "id": res.get("id"),
                 "name": res.get("name") or res.get("description", "Sans nom"),
                 "format": res.get("format", "inconnu"),
@@ -31,7 +30,9 @@ async def list_dataset_resources(dataset_id: str) -> str:
                 "datastore_active": res.get("datastore_active", False),
                 "url": res.get("url"),
                 "last_modified": res.get("last_modified"),
-            })
+            }
+            for res in pkg.get("resources", [])
+        ]
 
         return json.dumps(
             {"dataset": pkg.get("title"), "total_resources": len(resources), "resources": resources},

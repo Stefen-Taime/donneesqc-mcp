@@ -32,4 +32,7 @@ async def query_montreal_sql(sql: str) -> str:
         )
     except Exception:
         logger.exception("Erreur dans query_montreal_sql")
-        return json.dumps({"error": "Erreur SQL sur donnees.montreal.ca. Vérifiez la syntaxe et les resource_id."}, ensure_ascii=False)
+        return json.dumps(
+            {"error": "Erreur SQL sur donnees.montreal.ca. Vérifiez la syntaxe et les resource_id."},
+            ensure_ascii=False,
+        )

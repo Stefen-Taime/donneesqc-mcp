@@ -25,16 +25,19 @@ async def list_organizations(query: str | None = None) -> str:
 
         if query:
             q_lower = query.lower()
-            orgs = [o for o in orgs if q_lower in o.get("display_name", "").lower() or q_lower in o.get("name", "").lower()]
+            orgs = [
+                o for o in orgs if q_lower in o.get("display_name", "").lower() or q_lower in o.get("name", "").lower()
+            ]
 
-        summary = []
-        for org in orgs:
-            summary.append({
+        summary = [
+            {
                 "id": org.get("name"),
                 "title": org.get("display_name") or org.get("title"),
                 "num_datasets": org.get("package_count", 0),
                 "description": (org.get("description") or "")[:200],
-            })
+            }
+            for org in orgs
+        ]
 
         summary.sort(key=lambda x: x["num_datasets"], reverse=True)
 
