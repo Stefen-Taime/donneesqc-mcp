@@ -6,7 +6,7 @@ license = "MIT"
 requires-python = ">=3.11"
 dynamic = ["version"]
 authors = [
-    { name = "mcsÉdition", email = "contact@mcsedition.com" },
+    { name = "mcsÉdition", email = "contact@mcsedition.org" },
 ]
 keywords = ["mcp", "open-data", "quebec", "ckan", "donnees-ouvertes", "geospatial"]
 classifiers = [

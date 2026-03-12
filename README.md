@@ -303,4 +303,4 @@ Then connect your AI client to `http://localhost:8000/mcp` — see the [connecti
 
 ---
 
-*Un projet [mcsÉdition](https://mcsedition.com) — Montréal, Québec*
+*Un projet [mcsÉdition](https://mcsedition.org/fr) — Montréal, Québec*
