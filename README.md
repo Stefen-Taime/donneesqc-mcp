@@ -9,10 +9,55 @@ Serveur [Model Context Protocol (MCP)](https://modelcontextprotocol.io) qui perm
 Au lieu de naviguer manuellement sur les portails, posez simplement vos questions :
 _« Quels jeux de données existent sur la criminalité à Montréal ? »_ ou _« Combien d'actes criminels par arrondissement en 2025 ? »_ et obtenez des réponses instantanées, incluant des analyses SQL.
 
-> **Par rapport à [data.gouv.fr MCP](https://github.com/datagouv/datagouv-mcp) :**
-> Requêtes SQL sur le DataStore | Couches géospatiales OGC | 3 sources de données | Bilingue FR/EN
+**Fonctionnalités clés :** Requêtes SQL sur le DataStore | Couches géospatiales OGC | 3 sources de données | Bilingue FR/EN
 
 *[English version below](#english)*
+
+---
+
+## Exemples de requêtes
+
+Voici ce que vous pouvez demander directement à votre agent IA :
+
+### 1. Analyse SQL — criminalité par quartier
+
+> « Quels sont les 10 postes de quartier avec le plus d'actes criminels à Montréal ? »
+
+| Rang | PDQ | Total actes |
+|------|-----|-------------|
+| 1 | 38 (Centre-Sud) | 24 942 |
+| 2 | 21 (Plateau-Mont-Royal) | 23 041 |
+| 3 | 20 (Ville-Marie Est) | 20 135 |
+| 4 | 48 (Saint-Laurent) | 16 163 |
+| 5 | 26 (Côte-des-Neiges) | 15 955 |
+
+*L'agent exécute automatiquement une requête SQL `GROUP BY` sur le DataStore montréalais.*
+
+### 2. Exploration multi-outils — arbres publics
+
+> « Trouve les données sur les arbres publics de Montréal, explore la structure, puis dis-moi combien d'arbres par arrondissement. »
+
+L'agent enchaîne 3 outils : `search_montreal_datasets` pour trouver le jeu, `query_montreal_data` pour explorer les colonnes, puis `query_montreal_sql` pour l'agrégation. Résultat : **333 556 arbres** répartis dans 13 arrondissements, Mercier-Hochelaga-Maisonneuve en tête (37 871).
+
+### 3. Statistiques du catalogue
+
+> « Combien d'organisations publient des données sur Données Québec ? »
+
+**139 organisations**, **1 584 jeux de données**. La Ville de Montréal domine avec 383 jeux (24 % du catalogue), suivie de Laval (133) et du MELCCFP (119).
+
+### 4. Tendance temporelle
+
+> « Quelle est la tendance mensuelle des actes criminels à Montréal ? »
+
+L'agent identifie un pic au printemps/été (~2 700/mois) et une baisse en hiver (~1 700-2 000/mois) via une requête SQL avec `GROUP BY` sur les dates.
+
+### 5. Données géospatiales — patrimoine culturel
+
+> « Quelles couches géospatiales sont disponibles pour le patrimoine culturel du Québec ? »
+
+L'agent interroge le WFS IGO et trouve 7 couches du Ministère de la Culture : sites patrimoniaux nationaux, déclarés, cités, terrains protégés — avec schéma complet (nom, adresse, période de construction, statut juridique).
+
+**[Voir tous les exemples avec réponses complètes](EXAMPLES.md)**
 
 ---
 
@@ -126,7 +171,7 @@ cd donneesqc-mcp
 uv sync
 cp .env.example .env
 set -a && source .env && set +a
-uv run main.py
+uv run python main.py
 ```
 
 **Variables d'environnement :**
