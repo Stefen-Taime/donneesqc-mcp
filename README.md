@@ -1,6 +1,6 @@
 # Données Québec MCP
 
-[![CI](https://github.com/mcsedition/donneesqc-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/mcsedition/donneesqc-mcp/actions/workflows/ci.yml)
+[![CI](https://github.com/Stefen-Taime/donneesqc-mcp/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Stefen-Taime/donneesqc-mcp/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-green.svg)](https://python.org)
 
@@ -113,7 +113,7 @@ Ajoutez dans `~/.codeium/windsurf/mcp_config.json` :
 ### Avec Docker (recommandé)
 
 ```bash
-git clone https://github.com/mcsedition/donneesqc-mcp.git
+git clone https://github.com/Stefen-Taime/donneesqc-mcp.git
 cd donneesqc-mcp
 docker compose up -d
 ```
@@ -121,7 +121,7 @@ docker compose up -d
 ### Installation manuelle
 
 ```bash
-git clone https://github.com/mcsedition/donneesqc-mcp.git
+git clone https://github.com/Stefen-Taime/donneesqc-mcp.git
 cd donneesqc-mcp
 uv sync
 cp .env.example .env
@@ -243,7 +243,7 @@ All setup instructions, tool descriptions, and environment variables are documen
 ### Quick start
 
 ```bash
-git clone https://github.com/mcsedition/donneesqc-mcp.git
+git clone https://github.com/Stefen-Taime/donneesqc-mcp.git
 cd donneesqc-mcp
 docker compose up -d
 ```

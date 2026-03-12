@@ -32,9 +32,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/mcsedition/donneesqc-mcp"
-Repository = "https://github.com/mcsedition/donneesqc-mcp"
-Issues = "https://github.com/mcsedition/donneesqc-mcp/issues"
+Homepage = "https://github.com/Stefen-Taime/donneesqc-mcp"
+Repository = "https://github.com/Stefen-Taime/donneesqc-mcp"
+Issues = "https://github.com/Stefen-Taime/donneesqc-mcp/issues"
 
 [build-system]
 requires = ["setuptools>=75.0", "setuptools_scm>=8.0"]

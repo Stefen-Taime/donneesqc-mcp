@@ -27,4 +27,4 @@ SENTRY_SAMPLE_RATE: float = float(os.environ.get("SENTRY_SAMPLE_RATE", "1.0"))
 # HTTP
 HTTP_TIMEOUT: float = float(os.environ.get("HTTP_TIMEOUT", "30.0"))
 HTTP_MAX_RETRIES: int = int(os.environ.get("HTTP_MAX_RETRIES", "3"))
-HTTP_USER_AGENT: str = "donneesqc-mcp (https://github.com/mcsedition/donneesqc-mcp)"
+HTTP_USER_AGENT: str = "donneesqc-mcp (https://github.com/Stefen-Taime/donneesqc-mcp)"
