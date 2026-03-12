@@ -1,0 +1,60 @@
+[project]
+name = "donneesqc-mcp"
+description = "Serveur MCP pour les données ouvertes du Québec — Données Québec, Ville de Montréal et services géospatiaux IGO."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dynamic = ["version"]
+authors = [
+    { name = "mcsÉdition", email = "contact@mcsedition.com" },
+]
+keywords = ["mcp", "open-data", "quebec", "ckan", "donnees-ouvertes", "geospatial"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "mcp[cli]>=1.9.0",
+    "httpx>=0.28.0",
+    "uvicorn>=0.34.0",
+    "sentry-sdk[httpx]>=2.19.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.25.0",
+    "ruff>=0.9.0",
+    "ty>=0.0.1a0",
+    "pre-commit>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/mcsedition/donneesqc-mcp"
+Repository = "https://github.com/mcsedition/donneesqc-mcp"
+Issues = "https://github.com/mcsedition/donneesqc-mcp/issues"
+
+[build-system]
+requires = ["setuptools>=75.0", "setuptools_scm>=8.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+write_to = "_version.py"
+fallback_version = "0.0.0"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "S", "B", "A", "C4", "DTZ", "T20", "ICN", "PIE", "PT", "RSE", "RET", "SIM", "TID", "TCH", "ARG", "PLC", "PLE", "PLW", "TRY", "FLY", "PERF", "RUF"]
+ignore = ["S101", "TRY003"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["tools", "helpers"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

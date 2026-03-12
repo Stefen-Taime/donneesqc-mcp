@@ -1,0 +1,17 @@
+services:
+  donneesqc-mcp:
+    build: .
+    ports:
+      - "${MCP_PORT:-8000}:${MCP_PORT:-8000}"
+    environment:
+      - MCP_HOST=${MCP_HOST:-0.0.0.0}
+      - MCP_PORT=${MCP_PORT:-8000}
+      - MCP_ENV=${MCP_ENV:-local}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - DQ_API_URL=${DQ_API_URL:-https://www.donneesquebec.ca/recherche/api/3/action}
+      - MTL_API_URL=${MTL_API_URL:-https://donnees.montreal.ca/api/3/action}
+      - GEO_WFS_URL=${GEO_WFS_URL:-https://geoegl.msp.gouv.qc.ca/ws/igo_gouvouvert.fcgi}
+      - GEO_WMS_URL=${GEO_WMS_URL:-https://geoegl.msp.gouv.qc.ca/ws/igo_gouvouvert.fcgi}
+      - SENTRY_DSN=${SENTRY_DSN:-}
+      - SENTRY_SAMPLE_RATE=${SENTRY_SAMPLE_RATE:-1.0}
+    restart: unless-stopped
