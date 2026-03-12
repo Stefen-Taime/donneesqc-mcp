@@ -6,8 +6,12 @@ sur l'instance FastMCP partagée.
 
 from mcp.server.fastmcp import FastMCP
 
+from helpers.config import MCP_HOST, MCP_PORT
+
 mcp = FastMCP(
     name="donneesqc-mcp",
+    host=MCP_HOST,
+    port=MCP_PORT,
     instructions="""Tu es un assistant spécialisé dans les données ouvertes du Québec.
 Tu as accès au catalogue complet de Données Québec (donneesquebec.ca),
 aux données de la Ville de Montréal (donnees.montreal.ca) et aux
