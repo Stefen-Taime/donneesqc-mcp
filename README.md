@@ -9,7 +9,7 @@ Serveur [Model Context Protocol (MCP)](https://modelcontextprotocol.io) qui perm
 Au lieu de naviguer manuellement sur les portails, posez simplement vos questions :
 _« Quels jeux de données existent sur la criminalité à Montréal ? »_ ou _« Combien d'actes criminels par arrondissement en 2025 ? »_ et obtenez des réponses instantanées, incluant des analyses SQL.
 
-**Fonctionnalités clés :** Requêtes SQL sur le DataStore | Couches géospatiales OGC | 3 sources de données | Bilingue FR/EN
+**Fonctionnalités clés :** Requêtes SQL sur le DataStore | Téléchargement de ressources non-DataStore (CSV, JSON, GeoJSON) | Recherche + interrogation en un appel | Géocodage québécois | Conversion EPSG:32198 ↔ 4326 | Intersection spatiale | Couches géospatiales OGC | 3 sources de données | 28 outils
 
 *[English version below](#english)*
 
@@ -198,6 +198,10 @@ uv run python main.py
 | `MTL_API_URL` | `https://donnees.montreal.ca/api/3/action` | API CKAN de Montréal. |
 | `GEO_WFS_URL` | `https://geoegl.msp.gouv.qc.ca/ws/igo_gouvouvert.fcgi` | Endpoint WFS IGO. |
 | `GEO_WMS_URL` | `https://geoegl.msp.gouv.qc.ca/ws/igo_gouvouvert.fcgi` | Endpoint WMS IGO. |
+| `GEOCODER_URL` | `https://geoegl.msp.gouv.qc.ca/apis/icherche` | API de géocodage Adresses Québec (ICherche). |
+| `HTTP_TIMEOUT` | `30.0` | Timeout HTTP en secondes. |
+| `HTTP_MAX_RETRIES` | `3` | Nombre de tentatives en cas d'erreur réseau ou 5xx. |
+| `DOWNLOAD_MAX_BYTES` | `52428800` (50 Mo) | Taille maximale pour le téléchargement de fichiers. |
 | `LOG_LEVEL` | `INFO` | Niveau de journalisation Python. |
 | `SENTRY_DSN` | _(non défini)_ | DSN Sentry pour le monitoring. |
 
@@ -209,7 +213,7 @@ Construit avec le [SDK Python MCP officiel](https://github.com/modelcontextproto
 - `POST /mcp` — Messages JSON-RPC
 - `GET /health` — Sonde de santé
 
-## Outils disponibles (16)
+## Outils disponibles (28)
 
 ### Données Québec — jeux de données (9 outils)
 
@@ -233,7 +237,23 @@ Construit avec le [SDK Python MCP officiel](https://github.com/modelcontextproto
 | `query_montreal_data` | Interroge le DataStore montréalais |
 | `query_montreal_sql` | SQL sur les données montréalaises |
 
-### Géospatial / IGO (4 outils)
+### Data access (2 outils)
+
+| Outil | Description |
+|---|---|
+| `download_resource` | Télécharge et lit des ressources **non-DataStore** (CSV, JSON, GeoJSON, XLSX) |
+| `preview_resource` | Aperçu intelligent — schéma (colonnes + types) et 5 premières lignes |
+
+### Intelligence & UX (4 outils)
+
+| Outil | Description |
+|---|---|
+| `find_and_query` | **Composite** — enchaîne search → resources → query en un seul appel |
+| `suggest_sql` | Génère des squelettes SQL à partir du schéma d'une ressource |
+| `compare_datasets` | Diff entre 2 jeux (colonnes, volumes, tags, organisations) |
+| `auto_detect_resource` | Trouve automatiquement le meilleur `resource_id` à partir d'un nom |
+
+### Géospatial (8 outils)
 
 | Outil | Description |
 |---|---|
@@ -241,6 +261,17 @@ Construit avec le [SDK Python MCP officiel](https://github.com/modelcontextproto
 | `get_geospatial_features` | Entités GeoJSON depuis le WFS |
 | `describe_geospatial_layer` | Schéma d'une couche (champs, types) |
 | `get_map_url` | URL d'image cartographique WMS |
+| `geocode` | Adresse québécoise → coordonnées lat/lng (via Adresses Québec) |
+| `reverse_geocode` | Coordonnées lat/lng → adresse québécoise |
+| `convert_coordinates` | Conversion EPSG:32198 (Lambert MTQ) ↔ EPSG:4326 (WGS84) |
+| `spatial_intersection` | Quelle région / MRC / municipalité / arrondissement contient un point |
+
+### Système (2 outils)
+
+| Outil | Description |
+|---|---|
+| `get_version` | Version du serveur, Python, capacités disponibles |
+| `list_tools_with_examples` | Meta-introspection — liste tous les outils avec exemples d'utilisation |
 
 ## Tests
 
@@ -283,6 +314,7 @@ uv run pre-commit install
 - **[Données Québec](https://donneesquebec.ca)** — Portail provincial (gouvernement + municipalités), basé sur CKAN
 - **[donnees.montreal.ca](https://donnees.montreal.ca)** — Portail municipal de Montréal, le plus riche au Québec
 - **[IGO](https://igouverte.org)** — Infrastructure Géomatique Ouverte, services OGC (WMS/WFS)
+- **[Adresses Québec (ICherche)](https://geoegl.msp.gouv.qc.ca/apis/icherche)** — Géocodage et géocodage inverse
 
 ## Licence
 
@@ -308,11 +340,14 @@ docker compose up -d
 
 Then connect your AI client to `http://localhost:8000/mcp` — see the [connection section above](#connecter-votre-agent-ia-au-serveur-mcp) for client-specific configs.
 
-### Available tools (16)
+### Available tools (28)
 
 - **Données Québec** (9): dataset search, metadata, DataStore queries, direct SQL, organizations, catalog stats
 - **Ville de Montréal** (3): dataset search, DataStore queries, SQL
-- **Geospatial / IGO** (4): WFS/WMS layer listing, GeoJSON features, layer schema, map image URLs
+- **Data access** (2): non-DataStore file download (CSV, JSON, GeoJSON, XLSX), smart preview (schema + 5 rows)
+- **Intelligence & UX** (4): composite search+query, SQL suggestion, dataset comparison, auto resource detection
+- **Geospatial** (8): WFS/WMS layers, GeoJSON features, geocoding, reverse geocoding, EPSG:32198↔4326 conversion, spatial intersection
+- **System** (2): version info, tool listing with examples (meta-introspection)
 
 ---
 
