@@ -114,7 +114,7 @@ async def test_fetch_json_all_retries_fail():
         patch.object(http_client, "_client", mock_client),
         patch("helpers.http_client.asyncio.sleep", new_callable=AsyncMock),
         patch.object(http_client, "HTTP_MAX_RETRIES", 3),
-        pytest.raises(RuntimeError, match="Échec après"),
+        pytest.raises(RuntimeError, match="Echec apres"),
     ):
         await http_client.fetch_json("https://example.com/api")
 

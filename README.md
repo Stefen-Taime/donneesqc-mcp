@@ -73,6 +73,19 @@ Utilisez le endpoint hébergé (bientôt disponible) ou lancez localement. La co
 claude mcp add --transport http donneesqc http://localhost:8000/mcp
 ```
 
+> **Note :** Si Claude Code bloque les appels réseau vers les API externes, ajoutez les domaines à la whitelist dans votre `.claude/settings.json` :
+>
+> ```json
+> {
+>   "permissions": {
+>     "allow": [
+>       "WebFetch(domain:registreentreprises.gouv.qc.ca)",
+>       "WebFetch(domain:www.donneesquebec.ca)"
+>     ]
+>   }
+> }
+> ```
+
 ### Claude Desktop
 
 Ajoutez dans votre fichier de configuration Claude Desktop :

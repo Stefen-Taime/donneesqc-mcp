@@ -6,7 +6,8 @@ WMS = images cartographiques, WFS = données vectorielles (GeoJSON).
 import logging
 import time
 from typing import Any
-from xml.etree import ElementTree as ET
+
+import defusedxml.ElementTree as DefusedET
 
 from helpers.config import GEO_WFS_URL, GEO_WMS_URL
 from helpers.http_client import fetch_json, fetch_text
@@ -139,7 +140,7 @@ def simplify_coords(geom: dict[str, Any]) -> str:
 
 def _parse_capabilities(xml_text: str, element_tag: str) -> dict[str, Any]:
     """Parse un GetCapabilities WFS ou WMS en liste de couches."""
-    root = ET.fromstring(xml_text)  # noqa: S314
+    root = DefusedET.fromstring(xml_text)
     layers: list[dict[str, str]] = []
 
     for el in root.iter():
